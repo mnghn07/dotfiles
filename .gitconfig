@@ -1,0 +1,22 @@
+[user]
+	name = Minh Nguyen
+	email = 
+[core]
+	excludesfile = /Users/mhn5190/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[safe]
+	bareRepository = explicit
+[commit]
+	template = /Users/mhn5190/.stCommitMsg
+
+[push]
+	autoSetupRemote = true
+	default = current
+
+[alias]
+	undo = reset --soft HEAD^
