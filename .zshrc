@@ -106,6 +106,8 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
 
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
@@ -113,10 +115,12 @@ export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 
 # Zsh autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
  
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
 
-eval $(ssh-agent)export PATH="${HOME}/.local/bin":${PATH}
+eval $(ssh-agent)
+export PATH="${HOME}/.local/bin":${PATH}
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -126,5 +130,3 @@ export CGO_CPPFLAGS=-I/opt/homebrew/opt/unixodbc/include/
 export CGO_LDFLAGS=-L/opt/homebrew/opt/unixodbc/lib
 
 source $ZSH/oh-my-zsh.sh
-
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
