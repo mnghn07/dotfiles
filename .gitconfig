@@ -1,22 +1,58 @@
+# =============================================================================
+#  .gitconfig — Global Git configuration
+#  Location: ~/.gitconfig
+# =============================================================================
+
 [user]
-	name = Minh Nguyen
-	email = 
+	name = Minh
+	email = ngh.nhatminh0712@gmail.com
+
+[init]
+	defaultBranch = main
+
 [core]
-	excludesfile = /Users/mhn5190/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[safe]
-	bareRepository = explicit
-[commit]
-	template = /Users/mhn5190/.stCommitMsg
+	editor = code --wait
+	autocrlf = input
+	# Faster git status for large repos
+	fsmonitor = true
+	untrackedcache = true
+
+[pull]
+	rebase = true
 
 [push]
 	autoSetupRemote = true
 	default = current
 
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	algorithm = histogram
+	colorMoved = default
+
+[rerere]
+	# Remember how you resolved conflicts — auto-applies next time
+	enabled = true
+
+[fetch]
+	prune = true
+
 [alias]
-	undo = reset --soft HEAD^
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	lg = log --oneline --graph --decorate -15
+	undo = reset --soft HEAD~1
+	amend = commit --amend --no-edit
+	wip = !git add -A && git commit -m 'WIP'
+	cleanup = !git branch --merged main | grep -v main | xargs -n 1 git branch -d
+
+[credential]
+	# macOS Keychain integration
+	helper = osxkeychain
+
+# Conditional config for work repos (adjust the path)
+# [includeIf "gitdir:~/work/"]
+# 	path = ~/.gitconfig-work

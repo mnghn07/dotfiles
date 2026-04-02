@@ -1,0 +1,41 @@
+# =============================================================================
+#  Global .gitignore — applies to ALL repos
+#  Location: ~/.gitignore_global
+#  Activate: git config --global core.excludesfile ~/.gitignore_global
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Misc
+*.log
+.cache/
+.tmp/

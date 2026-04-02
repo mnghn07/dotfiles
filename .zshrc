@@ -1,132 +1,117 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# =============================================================================
+#  .zshrc — Minh's Fullstack & Mobile Dev Setup
+#  Clean, fast, organized. Grouped by concern.
+# =============================================================================
 
-# Path to your Oh My Zsh installation.
+# ─── Homebrew (must be first — everything else depends on it) ────────────────
+# Apple Silicon path. Change to /usr/local for Intel Macs.
+export HOMEBREW_PREFIX="/opt/homebrew"
+eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+
+# ─── Oh My Zsh ──────────────────────────────────────────────────────────────
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# Keep plugins minimal. Each one adds startup time.
+# git        — aliases (gst, gco, gp, etc.)
+# z          — smart directory jumping (way better than cd)
+# You can add 'vscode' if you use VS Code, or 'docker' if needed.
+plugins=(git z)
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+source "$ZSH/oh-my-zsh.sh"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# ─── Shell Options ───────────────────────────────────────────────────────────
+export LANG=en_US.UTF-8
+export EDITOR="code"               # Change to: cursor, nvim, vim, etc.
+export VISUAL="$EDITOR"
+HIST_STAMPS="yyyy-mm-dd"
 
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# ─── Node.js (fnm — fast, reads .nvmrc automatically) ───────────────────────
+# Install:     brew install fnm
+# Usage:       fnm install 20 && fnm default 20
+# Per-project: just drop a .nvmrc file — fnm switches automatically on cd
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git golang)
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
+# ─── Python ──────────────────────────────────────────────────────────────────
+# Homebrew Python takes priority over Xcode's /usr/bin/python3.
+# Xcode uses its own Python internally via absolute paths — this doesn't
+# affect it. You just want YOUR terminal to use Homebrew's version.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Golden rules:
+#   - Never "pip install" globally — use pipx for CLI tools, venv for projects
+#   - Never sudo pip install anything
+#   - Xcode's Python will take care of itself; don't try to sync versions
+#
+# Homebrew Python is already in PATH via brew shellenv above.
+# This adds the user-local bin for pipx and pip --user installs:
+export PATH="$HOMEBREW_PREFIX/opt/python@3/libexec/bin:$PATH"
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+# ─── Java / Android (Mobile Dev) ────────────────────────────────────────────
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+# ─── Go ──────────────────────────────────────────────────────────────────────
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+export GOPRIVATE="bitbucket.org/dragontailcom/*"
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
-# Zsh autosuggestions
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
- 
-export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
+# Project-specific CGO flags (consider moving to direnv or project Makefile)
+export CGO_CPPFLAGS="-I$HOMEBREW_PREFIX/opt/unixodbc/include/"
+export CGO_LDFLAGS="-L$HOMEBREW_PREFIX/opt/unixodbc/lib"
 
-eval $(ssh-agent)
-export PATH="${HOME}/.local/bin":${PATH}
+# ─── Ruby (Homebrew) ────────────────────────────────────────────────────────
+# Homebrew Ruby + its gem bin path so `pod`, `bundler`, `fastlane` etc. are found.
+# Never use `sudo gem install` — Homebrew Ruby installs gems to user-writable paths.
+export PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
+export PATH="$(ruby -e 'puts Gem.user_dir' 2>/dev/null)/bin:$PATH" 2>/dev/null
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir' 2>/dev/null)" 2>/dev/null
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Pin your Ruby gems in iOS projects with a Gemfile:
+#   source "https://rubygems.org"
+#   gem "cocoapods", "~> 1.15"
+#   gem "fastlane"
+# Then: bundle install (uses Bundler, installs per-project)
+#        bundle exec pod install (runs CocoaPods from the Gemfile version)
 
-export CGO_CPPFLAGS=-I/opt/homebrew/opt/unixodbc/include/
-export CGO_LDFLAGS=-L/opt/homebrew/opt/unixodbc/lib
+# ─── SSH (use macOS Keychain — no ssh-agent spawning) ────────────────────────
+# macOS handles ssh-agent via Keychain automatically.
+# Just make sure ~/.ssh/config has:
+#   Host *
+#     UseKeychain yes
+#     AddKeysToAgent yes
+#     IdentityFile ~/.ssh/id_ed25519
 
-source $ZSH/oh-my-zsh.sh
+# ─── Local bin ───────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+# ─── Zsh Plugins (loaded last) ──────────────────────────────────────────────
+# These must come after everything else, especially syntax-highlighting.
+source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
+
+# ─── Aliases ─────────────────────────────────────────────────────────────────
+alias reload="source ~/.zshrc"
+alias ll="ls -lahG"
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Git shortcuts (on top of OMZ git plugin)
+alias gs="git status"
+alias gc="git commit"
+alias gd="git diff"
+alias gl="git log --oneline -15"
+
+# Mobile dev
+alias adb-devices="adb devices"
+alias ios-sim="open -a Simulator"
+alias pod-clean="cd ios && pod deintegrate && pod install && cd .."
+
+# ─── Project-specific overrides (optional) ───────────────────────────────────
+# If you use direnv for per-project env vars (highly recommended):
+# eval "$(direnv hook zsh)"
+
+# Source local overrides that shouldn't be committed to your dotfiles repo
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
