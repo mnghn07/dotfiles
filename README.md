@@ -1,4 +1,4 @@
-# Dotfiles — Fullstack & Mobile Dev
+# Dotfiles — My dotfiles
 
 ## Quick Start (New Mac)
 
